@@ -112,7 +112,7 @@ func crack(saltedHash string, wordListPath string) (string, bool) {
 				}
 
 				// compare hashResult to saltedHash
-				if hashResult == saltedHash {
+				if hashResult == hash {
 					return word, true
 				}
 			}
