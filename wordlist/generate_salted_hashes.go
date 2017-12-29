@@ -31,7 +31,7 @@ import (
 	"strings"
 )
 
-var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#@!$%^&*()-_+=[]{};'?/>.<,|\\")
+var saltRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#@!$%^&*()-_+=[]{};'?/>.<,|\\")
 
 func Generate10() {
 	// seed PRNG
@@ -44,7 +44,7 @@ func Generate10() {
 		return
 	}
 
-	tenRandomWords := getTenRandomWords(wordlist)
+	tenRandomWords := getTenRandomWords(&wordlist)
 	fmt.Println("#\tWord\tSalt:Hash")
 	for i, word := range tenRandomWords {
 		salt := getSalt(rand.Intn(10)+10)
@@ -85,12 +85,12 @@ func containsInt(sl []int, v int) bool {
 	return false
 }
 
-func getTenRandomWords(path string) []string {
+func getTenRandomWords(path *string) []string {
 	randomNumbers := getTenRandomNumbers()
 	sort.Ints(randomNumbers)
 	randomWords := make([]string, 0, 10)
 
-	f, err := os.Open(path)
+	f, err := os.Open(*path)
 	if err != nil {
 		fmt.Fprint(os.Stderr, "Error opening word list\n")
 		panic(err)
@@ -113,7 +113,7 @@ func getTenRandomWords(path string) []string {
 func getSalt(length int) string {
 	s := make([]rune, length)
 	for i := range s {
-		s[i] = letterRunes[rand.Intn(len(letterRunes))]
+		s[i] = saltRunes[rand.Intn(len(saltRunes))]
 	}
 	return string(s)
 }
