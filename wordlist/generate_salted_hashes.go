@@ -2,6 +2,18 @@
 // assumes hashed string uses colon delimiter and is in order salt:hash
 // path to word list is hardcoded (word list not checked into repo)
 
+/*
+Copyright © 2017 Dan O'Day (d@4n68r.com)
+
+This work is free. You can redistribute it and/or modify it under the terms of the Do What The Fuck You Want To Public
+License, Version 2, as published by Sam Hocevar. See the COPYING file for more details.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package wordlist
 
 import (
