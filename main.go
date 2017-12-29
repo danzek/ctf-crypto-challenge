@@ -13,7 +13,11 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-// todo -- allow command-line parameter to specify order of salt:hash (is salt first or second?)
+/* todo:
+    - allow command-line parameter to specify order of salt:hash (is salt first or second?)
+    - accept salted hashes in file parameter where each salted hash is on a new line in the file
+    - concurrently crack passwords
+*/
 
 package main
 
