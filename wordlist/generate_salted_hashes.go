@@ -1,5 +1,6 @@
 // generate 10 salted hashes to test cracking on
 // assumes hashed string uses colon delimiter and is in order salt:hash
+// path to word list is hardcoded (word list not checked into repo)
 
 package wordlist
 
