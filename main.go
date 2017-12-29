@@ -111,7 +111,7 @@ func crack(saltedHash string, wordListPath string) (string, bool) {
 					hashResult = fmt.Sprintf("%x", sha512.Sum512(saltedWord))
 				}
 
-				// compare hashResult to saltedHash
+				// compare hashResult to hash
 				if hashResult == hash {
 					return word, true
 				}
