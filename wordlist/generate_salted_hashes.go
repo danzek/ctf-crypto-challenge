@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#@!$%^&*()-_+=[]{};:'?/>.<,|\\")
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#@!$%^&*()-_+=[]{};'?/>.<,|\\")
 
 func Generate10() {
 	// seed PRNG
