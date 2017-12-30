@@ -16,6 +16,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 /* todo:
     - allow command-line parameter to specify order of salt:hash (is salt first or second?)
     - accept salted hashes in file parameter where each salted hash is on a new line in the file
+    - limit number of concurrent goroutines to runtime.numCPU() * 2 or something sensible
 */
 
 package main
