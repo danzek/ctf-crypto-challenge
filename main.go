@@ -30,7 +30,7 @@ import (
 	"os"
 	"crypto_ctf_challenge/wordlist"
 	"bufio"
-	"time"
+	// "time"  // debug only
 )
 
 var hashSizes = map[int]string {
