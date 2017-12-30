@@ -29,7 +29,7 @@ import (
 	"fmt"
 	"strings"
 	"os"
-	"crypto_ctf_challenge/wordlist"
+	"github.com/ctf-crypto-challenge/wordlist"
 	"bufio"
 	// "time"  // debug only
 )
