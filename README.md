@@ -3,6 +3,13 @@ CTF Crypto Challenge
 
 Given a salt, salted hash, and word list, determine which word from the word list corresponds to the salted hash (i.e., crack the password).
 
+Download
+--------
+
+You can clone the repo if you plan to do development, or simply download it using `go get`:
+
+    go get github.com/danzek/ctf-crypto-challenge
+
 Usage
 -----
 
