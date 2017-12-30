@@ -30,7 +30,6 @@ import (
 	"os"
 	"crypto_ctf_challenge/wordlist"
 	"bufio"
-	"io"
 )
 
 var hashSizes = map[int]string {
@@ -40,10 +39,7 @@ var hashSizes = map[int]string {
 	sha512.Size: "SHA512",
 }
 
-type WordListScanner struct {
-	io.Closer
-	*bufio.Scanner
-}
+var words []string
 
 func main() {
 	// establish path to word list
@@ -71,35 +67,48 @@ func main() {
 		showUsage()
 	}
 
-	// get word list scanner to be shared between goroutines
-	scanner := getScannerPtr(&wordListPath)
+	// populate slice with words from word list
+	f, err := os.Open(wordListPath)
+	if err != nil {
+		fmt.Fprint(os.Stderr, "Error opening word list\n")
+		panic(err)
+	}
+	scanner := bufio.NewScanner(f)
+	defer f.Close()
+
+	for scanner.Scan() {
+		words = append(words, strings.TrimSpace(scanner.Text()))
+	}
+
+	// create channel for results
+	resultChannel := make(chan string)
 
 	// crack passwords
+	// todo -- limit number of goroutines to avoid blocking
 	for _, sh := range os.Args[2:] {
 		// iterate over word list and crack password
-		if word, ok := crack(&sh, scanner); ok {
-			fmt.Printf("CRACKED: %s\n", word)
-		} else {
-			fmt.Fprintf(os.Stderr, "ERROR: %s\n", word)
-		}
+		go crack(sh, words, resultChannel)
 	}
-	defer scanner.Close()
+
+	// print results received from channel ch
+	for range os.Args[2:] {
+		fmt.Print(<-resultChannel)
+	}
 }
 
 func showUsage() {
 	fmt.Fprint(os.Stderr, "Usage: go run main.go /path/to/word/list.txt salt:hash [salt:hash ...]\n")
 }
 
-func crack(saltedHash *string, wordListScanner *WordListScanner) (string, bool) {
-	splitString := strings.Split(*saltedHash, ":")
+func crack(saltedHash string, words []string, ch chan<- string) {
+	splitString := strings.Split(saltedHash, ":")
 	if len(splitString) == 2 {
 		salt := splitString[0]
 		hash := splitString[1]
 
 		if hashType, ok := hashSizes[len(hash)/2]; ok {
 			// iterate over word list
-			for wordListScanner.Scan() {
-				word := strings.TrimSpace(wordListScanner.Text())
+			for _, word := range words {
 				saltedWord := []byte(fmt.Sprintf("%s:%s", salt, word))
 
 				// calculate hashResult
@@ -117,26 +126,18 @@ func crack(saltedHash *string, wordListScanner *WordListScanner) (string, bool) 
 
 				// compare hashResult to hash
 				if hashResult == hash {
-					return word, true
+					ch <- fmt.Sprintf("CRACKED PASSWORD: %s\tsaltedHash: %s\n", word, saltedHash)
+					return
 				}
 			}
 		} else {
-			return "UNRECOGNIZED HASH TYPE", false
+			ch <- fmt.Sprintf("UNRECOGNIZED HASH TYPE: %s\n", saltedHash)
+			return
 		}
 	} else {
-		return "INVALID SALT:HASH", false
+		ch <- fmt.Sprintf("INVALID SALT:HASH: %s\n", saltedHash)
+		return
 	}
 
-	return "WORD NOT FOUND", false
-}
-
-func getScannerPtr(wordListPath *string) *WordListScanner {
-	f, err := os.Open(*wordListPath)
-	if err != nil {
-		fmt.Fprint(os.Stderr, "Error opening word list\n")
-		panic(err)
-	}
-	scanner := bufio.NewScanner(f)
-	// scanner.Split(bufio.ScanLines)  // not needed, this is default behavior
-	return &WordListScanner{f, scanner}
+	ch <- fmt.Sprintf("WORD NOT FOUND FOR %s\n", saltedHash)
 }
