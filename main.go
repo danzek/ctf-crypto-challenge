@@ -30,6 +30,7 @@ import (
 	"os"
 	"crypto_ctf_challenge/wordlist"
 	"bufio"
+	"time"
 )
 
 var hashSizes = map[int]string {
@@ -42,6 +43,9 @@ var hashSizes = map[int]string {
 var words []string
 
 func main() {
+	// debug only (determine how long program execution took
+	// start := time.Now()
+
 	// establish path to word list
 	var wordListPath string
 
@@ -94,6 +98,9 @@ func main() {
 	for range os.Args[2:] {
 		fmt.Print(<-resultChannel)
 	}
+
+	// debug only (print program execution time)
+	// fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
 }
 
 func showUsage() {
