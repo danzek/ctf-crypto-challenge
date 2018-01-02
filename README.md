@@ -6,7 +6,7 @@ Given a salt, salted hash, and word list, determine which word from the word lis
 Download
 --------
 
-You can clone the repo if you plan to do development, or simply download it using `go get`:
+Clone the repo if you plan to do development, or simply download it using `go get`:
 
     go get github.com/danzek/ctf-crypto-challenge
 
@@ -18,6 +18,8 @@ Usage
 To generate 10 sample salted hashes from the word list (assumes word list is named `words.txt` and is in the `wordlist` folder):
 
     go run main.go crackme test
+
+Of course you can compile it for your platform with `go build` and run whatever you name the executable as well.
 
 Why?
 ---
