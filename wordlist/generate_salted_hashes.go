@@ -32,6 +32,7 @@ import (
 )
 
 var saltRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#@!$%^&*()-_+=[]{};'?/>.<,|\\")
+var numWordsInWordlist = 10000
 
 func Generate10() {
 	// seed PRNG
@@ -68,7 +69,7 @@ func getTenRandomNumbers() []int {
 	// choose 10 unique random numbers
 	randomNumbers := make([]int, 0, 10)
 	for i := 0; i < 10; i = len(randomNumbers) {
-		prn := rand.Intn(10000)
+		prn := rand.Intn(numWordsInWordlist)
 		if !containsInt(randomNumbers, prn) {
 			randomNumbers = append(randomNumbers, prn)
 		}
